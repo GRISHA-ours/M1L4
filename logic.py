@@ -7,7 +7,7 @@ class Pokemon:
     def __init__(self, pokemon_trainer):
 
         self.pokemon_trainer = pokemon_trainer   
-        self.last_feed_time = datetime.now
+        self.last_feed_time = datetime.now()
         self.pokemon_number = randint(1,1000)
         self.img = self.get_img()
         self.name = self.get_name()
@@ -87,10 +87,28 @@ class Fighter(Pokemon):
         super().__init__(pokemon_trainer)
         self.power += randint(3000, 6000)
 
+    def feed(self, feed_interval = 10, hp_increase = 5 ):
+        current_time = datetime.now()  
+        delta_time = timedelta(seconds=feed_interval)  
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hp += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
+        else:
+            return f"Следующее время кормления покемона: {current_time+delta_time}"
+        
 class Wizard(Pokemon):
 
     def __init__(self, pokemon_trainer):
         super().__init__(pokemon_trainer)
         self.hp += randint(5000, 22000)
 
-
+    def feed(self, feed_interval = 40, hp_increase = 20 ):
+        current_time = datetime.now()  
+        delta_time = timedelta(seconds=feed_interval)  
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hp += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
+        else:
+            return f"Следующее время кормления покемона: {current_time+delta_time}"
